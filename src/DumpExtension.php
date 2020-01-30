@@ -48,7 +48,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	 * @param string $name Name (title) of data to dump
 	 * @param string $data Data to dump as a string
 	 */
-	public function dump($name, $data)
+	public static function dump($name, $data)
 	{
 		$GLOBALS[self::GLOBAL_VAR] or $GLOBALS[self::GLOBAL_VAR] = array();
 		$GLOBALS[self::GLOBAL_VAR][$name] = $data;
