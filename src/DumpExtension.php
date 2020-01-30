@@ -22,7 +22,6 @@ abstract class DumpExtension implements AfterLastTestHook
 	 */
 	public function executeAfterLastTest(): void
 	{
-		echo "tttt";
 		// get data in superglobal
 		$data = $this->_getData();
 		if ( $data )
