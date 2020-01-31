@@ -127,7 +127,7 @@ class DumpToMail extends DumpExtension
 	
 	
 	/**
-	 * Dump data to a file
+	 * Dump data to a mail
 	 * 
 	 * @param string $data
 	 */
@@ -138,7 +138,7 @@ class DumpToMail extends DumpExtension
 		
 		try
 		{
-			if ( !is_array($data) )
+			if ( !is_array($data) || (count($data) == 0) )
 				return;
 			
 						
