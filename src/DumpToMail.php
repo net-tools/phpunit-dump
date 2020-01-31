@@ -47,6 +47,21 @@ class DumpToMail extends DumpExtension
 	
 	
 	/**
+	 * Send the mail
+	 * 
+	 * @param string $to Mail recipient
+	 * @param string $subject Mail subject
+	 * @param string $body Email body
+	 * @param string $headers Mail top-level headers (including From:)
+	 */
+	protected function _sendMail($to, $subject, $body, $headers)
+	{
+		mail($to, $subject, $body, $headers);
+	}
+	
+	
+	
+	/**
 	 * Guessing mimeType
 	 *
 	 * @param string $file Filename
@@ -129,7 +144,7 @@ class DumpToMail extends DumpExtension
 						
 			// for each data dump
 			foreach ( $data as $k => $v )
-				$atts[] = array('file'=>$v, 'filename'=>$k, $this->_guessMimeType($k, 'application/octet-stream'));
+				$atts[] = array('file'=>$v, 'filename'=>$k, 'filetype'=>$this->_guessMimeType($k, 'application/octet-stream'));
 
 
 			$sep = "MailMultipart-mixed-" . sha1(uniqid());
@@ -150,7 +165,7 @@ class DumpToMail extends DumpExtension
 			foreach ( $atts as $att )
 			$m .="--$sep" .
 				 "\r\n" .
-				 "Content-Type: application/octet-stream;\r\n   name=\"" . $att['filename'] . "\"\r\n" .
+				 "Content-Type: " . $att['filetype'] . ";\r\n   name=\"" . $att['filename'] . "\"\r\n" .
 						 "Content-Transfer-Encoding: base64\r\n" .
 						 "Content-Disposition: attachment;\r\n   filename=\"" . $att['filename'] . "\"" .
 				 "\r\n" .
@@ -161,7 +176,9 @@ class DumpToMail extends DumpExtension
 
 			$m .= "--$sep--";
 
-			mail($this->_recipient, 'PHPUnit data dump : ' . count($atts) . ' attachments', $m, $h);
+			
+			// send the mail
+			$this->_sendMail($this->_recipient, 'PHPUnit data dump : ' . count($atts) . ' attachments', $m, $h);
 			
 		}
 		catch (\Throwable $e)
