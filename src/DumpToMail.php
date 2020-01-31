@@ -47,6 +47,71 @@ class DumpToMail extends DumpExtension
 	
 	
 	/**
+	 * Guessing mimeType
+	 *
+	 * @param string $file Filename
+	 * @param string $def Default mimeType
+	 * @return string
+	 */
+	protected function _guessMimeType($file, $def = 'application/octet-stream')
+	{
+		// extract file extension (after . symbol)
+		$ext = substr(strrchr(strtolower($file), '.'), 1);
+	
+		switch ( $ext )
+		{
+			case 'gif':
+			case 'jpeg':
+			case 'png':
+				return "image/$ext";
+			case 'jpg':
+				return 'image/jpeg';
+			case 'mp4':
+			case 'mpeg':
+			case 'avi':
+				return "video/$ext";
+			case 'mp3':
+				return 'audio/mpeg3';
+			case 'wav':
+				return 'audio/wav';
+			case 'pdf':
+				return 'application/pdf';
+			case 'htm':
+			case 'html':
+				return 'text/html';
+			case 'txt':
+				return 'text/plain';
+			case 'eml':
+				return 'message/rfc822';
+			case 'doc':
+				return 'application/msword';
+			case 'docx':
+				return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+			case 'xls':
+				return 'application/vnd.ms-excel';
+			case 'xlsx':
+				return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+			case 'ppt':
+			case 'pps':
+				return 'application/vnd.ms-powerpoint';
+			case 'pptx':
+			case 'ppsx':
+				return 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+			case 'odt':
+				return 'application/vnd.oasis.opendocument.text';
+			case 'ods':
+				return 'application/vnd.oasis.opendocument.spreadsheet';
+			case 'odp':
+				return 'application/vnd.oasis.opendocument.presentation';
+			case 'zip':
+				return 'application/zip';
+			default :
+				return $def;
+		}
+	}
+	
+	
+	/**
 	 * Dump data to a file
 	 * 
 	 * @param string $data
@@ -64,7 +129,7 @@ class DumpToMail extends DumpExtension
 						
 			// for each data dump
 			foreach ( $data as $k => $v )
-				$atts[] = array('file'=>$v, 'filename'=>$k, 'application/octet-stream');
+				$atts[] = array('file'=>$v, 'filename'=>$k, $this->_guessMimeType($k, 'application/octet-stream'));
 
 
 			$sep = "MailMultipart-mixed-" . sha1(uniqid());
