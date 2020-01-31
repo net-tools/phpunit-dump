@@ -62,23 +62,14 @@ class DumpToMail extends DumpExtension
 				return;
 			
 						
-			// temp dir 
-			$tmp = sys_get_temp_dir() . '/' . uniqid() . '-';
-			
 			// for each data dump
 			foreach ( $data as $k => $v )
-			{
-				$f = fopen($tmp . $k, 'w');
-				fwrite($f, $v);
-				fclose($f);
-				
-				$atts[] = array('file'=>$tmp.$k, 'filename'=>$k, \Nettools\Core\Helpers\FileHelper::guessMimeType($k));
-			}
+				$atts[] = array('file'=>$v, 'filename'=>$k, \Nettools\Core\Helpers\FileHelper::guessMimeType($k));
 
 			
 			// creating a Multipart mail with attachments
 			$mail = \Nettools\Mailing\Mailer::createText($this->_content);
-			$mail = \Nettools\Mailing\Mailer::addAttachments($mail, $atts);
+			$mail = \Nettools\Mailing\Mailer::addAttachments($mail, $atts, true, false);
 
 			
 			if ( $ret = \Nettools\Mailing\Mailer::getDefault()->sendmail($mail, $this->_from, $this->_recipient, 'PHPUnit data dump : ' . count($atts) . ' attachments') )
@@ -87,12 +78,6 @@ class DumpToMail extends DumpExtension
 		catch (\Throwable $e)
 		{
 			echo "Exception " . get_class($e) . " in DumpToMail extension : " . $e->getMessage();
-		}
-		finally
-		{
-			// deleting temp files
-			foreach ( $atts as $att )
-				unlink($att['file']);
 		}
 	}
 }
