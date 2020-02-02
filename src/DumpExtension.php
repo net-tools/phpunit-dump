@@ -24,7 +24,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	{
 		// get data in superglobal
 		$data = $this->_getData();
-		if ( $data )
+		if ( $data && is_array($data) && count($data) )
 			$this->_dump($data);
 	}	
 	
@@ -59,7 +59,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	/**
 	 * Dump data ; to be implemented in classes inheriting from DumpExtension
 	 * 
-	 * @param string $data
+	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
 	abstract protected function _dump($data);
 }

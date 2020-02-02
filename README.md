@@ -35,3 +35,8 @@ The other PHPUnit extension class is `DumpToFile` which write all data to files 
 	</arguments>
 </extension>
 ```
+
+
+Then, during a test, call the static method `DumpExtension::dump($name, $data)` to create a dump value ; `$data` and `$name` are string values (in the case of `DumpToFile`, `$name` will be the filename created for this dump).
+
+At the end of the whole PHPUnit test, the values will be dumped (to files or as mail attachments).

@@ -129,7 +129,7 @@ class DumpToMail extends DumpExtension
 	/**
 	 * Dump data to a mail
 	 * 
-	 * @param string $data
+	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
 	protected function _dump($data)
 	{
@@ -138,10 +138,6 @@ class DumpToMail extends DumpExtension
 		
 		try
 		{
-			if ( !is_array($data) || (count($data) == 0) )
-				return;
-			
-						
 			// for each data dump
 			foreach ( $data as $k => $v )
 				$atts[] = array('file'=>$v, 'filename'=>$k, 'filetype'=>$this->_guessMimeType($k, 'application/octet-stream'));
@@ -183,7 +179,7 @@ class DumpToMail extends DumpExtension
 		}
 		catch (\Throwable $e)
 		{
-			echo "Exception " . get_class($e) . " in DumpToMail extension : " . $e->getMessage();
+			echo "Exception " . get_class($e) . " in " . __CLASS__ . " extension : " . $e->getMessage();
 		}
 	}
 }

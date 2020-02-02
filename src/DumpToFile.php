@@ -32,15 +32,12 @@ class DumpToFile extends DumpExtension
 	/**
 	 * Dump data to a file
 	 * 
-	 * @param string $data
+	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
 	protected function _dump($data)
 	{
 		try
 		{
-			if ( !is_array($data) )
-				return;
-			
 			foreach ( $data as $k => $v )
 			{
 				$f = fopen($this->_basedir . '/' . $k, 'w');
@@ -50,7 +47,7 @@ class DumpToFile extends DumpExtension
 		}
 		catch (\Throwable $e)
 		{
-			echo "Exception " . get_class($e) . " in DumpToFile extension : " . $e->getMessage();
+			echo "Exception " . get_class($e) . " in " . __CLASS__ . " extension : " . $e->getMessage();
 		}
 	}
 }
