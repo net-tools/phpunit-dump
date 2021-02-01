@@ -33,7 +33,7 @@ class DumpToMailTest extends \PHPUnit\Framework\TestCase
     public function testDump()
     {
 		// create a stub for user-defined class above, with assertions that the 'stub' method is called with specific parameters
-		$ext = $this->getMockBuilder(UnitTestDumpToMailExtension::class)->setMethods(['stub'])->setConstructorArgs(['to@domain.tld', 'from@domain.tld', 'body content'])->getMock();
+		$ext = $this->getMockBuilder(UnitTestDumpToMailExtension::class)->onlyMethods(['stub'])->setConstructorArgs(['to@domain.tld', 'from@domain.tld', 'body content'])->getMock();
 		$ext->expects($this->once())->method('stub')->with(
 				// recipient
 				$this->equalTo('to@domain.tld'), 
