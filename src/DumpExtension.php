@@ -20,7 +20,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	/**
 	 * Called after the last test has been run
 	 */
-	public function executeAfterLastTest(): void
+	public function executeAfterLastTest():void
 	{
 		// get data in superglobal
 		$data = $this->_getData();
@@ -37,7 +37,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	 */
 	protected function _getData()
 	{
-		return $GLOBALS[self::GLOBAL_VAR];
+		return array_key_exists(self::GLOBAL_VAR, $GLOBALS) ? $GLOBALS[self::GLOBAL_VAR] : null;
 	}
 	
 	
@@ -50,7 +50,9 @@ abstract class DumpExtension implements AfterLastTestHook
 	 */
 	public static function dump($name, $data)
 	{
-		$GLOBALS[self::GLOBAL_VAR] or $GLOBALS[self::GLOBAL_VAR] = array();
+		if ( !isset($GLOBALS[self::GLOBAL_VAR]) )
+			$GLOBALS[self::GLOBAL_VAR] = array();
+		
 		$GLOBALS[self::GLOBAL_VAR][$name] = $data;
 	}
 	
