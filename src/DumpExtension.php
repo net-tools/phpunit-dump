@@ -50,7 +50,7 @@ abstract class DumpExtension implements AfterLastTestHook
 	 */
 	public static function dump($name, $data)
 	{
-		if ( !isset($GLOBALS[self::GLOBAL_VAR]) )
+		if ( empty($GLOBALS[self::GLOBAL_VAR]) )
 			$GLOBALS[self::GLOBAL_VAR] = array();
 		
 		$GLOBALS[self::GLOBAL_VAR][$name] = $data;
