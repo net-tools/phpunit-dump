@@ -30,15 +30,9 @@ final class ExecutionFinishedSubscriber implements ExecutionFinishedSubscriberIn
 	
     public function notify(ExecutionFinished $event): void
     {
-		/**
-		 * Called after the last test has been run
-		 */
-		public function executeAfterLastTest():void
-		{
-			// get data in superglobal
-			if ( count($this->_ext->data) )
-				$this->_ext->doDump();
-		}	
+		// get data in superglobal
+		if ( count($this->_ext->data) )
+			$this->_ext->doDump();
 	}
 }
 
