@@ -17,23 +17,21 @@ To install net-tools/phpunit-dump package, just require it through composer : `r
 The extension must be registered in PHPUnit xml config file. For example, to register `DumpToMail` extension class :
 
 ```xml
-<extension class="Nettools\PHPUnitDump\DumpToMail">
-	<arguments>
-		<string>email_recipient@domain.tld</string>
-		<string>from_address@domain-test.tld</string>
-    <string>Email body</string>
-	</arguments>
-</extension>
+<extensions>
+	<bootstrap class="Nettools\PHPUnitDump\DumpToMail">
+		<parameter name="recipient" value="to@mydomain.tld"/>
+		<parameter name="from" value="phpunit@mydomain.tld"/>
+		<parameter name="body" value="email body text"/>
+	</bootstrap>
+</extensions>
 ```
 
 The other PHPUnit extension class is `DumpToFile` which write all data to files inside a given path :
 
 ```xml
-<extension class="Nettools\PHPUnitDump\DumpToFile">
-	<arguments>
-		<string>directory to store dump files into</string>
-	</arguments>
-</extension>
+<bootstrap class="Nettools\PHPUnitDump\DumpToFile">
+	<parameter name="path" value="path/to/file"/>
+</bootstrap>
 ```
 
 

@@ -4,13 +4,13 @@
 namespace Nettools\PHPUnitDump;
 
 
-use PHPUnit\Runner\Extension\Extension as PhpunitExtension;
-use PHPUnit\Runner\Extension\Facade as EventFacade;
-use PHPUnit\Runner\Extension\ParameterCollection;
-use PHPUnit\TextUI\Configuration\Configuration;
+use \PHPUnit\Runner\Extension\Extension as PhpunitExtension;
+use \PHPUnit\Runner\Extension\Facade as EventFacade;
+use \PHPUnit\Runner\Extension\ParameterCollection;
+use \PHPUnit\TextUI\Configuration\Configuration;
 
-use PHPUnit\Event\TestRunner\ExecutionFinished;
-use PHPUnit\Event\TestRunner\ExecutionFinishedSubscriber as ExecutionFinishedSubscriberInterface;
+use \PHPUnit\Event\TestRunner\ExecutionFinished;
+use \PHPUnit\Event\TestRunner\ExecutionFinishedSubscriber as ExecutionFinishedSubscriberInterface;
 
 
 
@@ -44,7 +44,7 @@ abstract class DumpExtension implements PhpunitExtension
 	/**
 	 * @var string[] Associative array of (key,value) items to dump 
 	 */
-	public static $data = array();
+	public static $data = array();	
 	
 	
 	

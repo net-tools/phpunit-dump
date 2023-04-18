@@ -4,6 +4,14 @@
 namespace Nettools\PHPUnitDump;
 
 
+use \PHPUnit\Runner\Extension\Facade as EventFacade;
+use \PHPUnit\Runner\Extension\ParameterCollection;
+use \PHPUnit\TextUI\Configuration\Configuration;
+
+
+
+
+
 
 /**
  * Dump data to mail (one attachment per data dump)
@@ -30,20 +38,27 @@ class DumpToMail extends DumpExtension
 	
 	
 	
-	/** 
-	 * Constructor
-	 *
-	 * @param string $recipient Recipient to send dump data to
-	 * @param string $from 'From' header
-	 * @param string $content Content body of mail
-	 */
-	public function __construct($recipient, $from = 'dump@phpunit.de', $content = 'Dumping from unit tests.')
-	{
-		$this->_recipient = $recipient;
-		$this->_from = $from;
-		$this->_content = $content;
-	}
 	
+	
+    public function bootstrap(Configuration $configuration, EventFacade $facade, ParameterCollection $parameters): void
+    {
+		if ($parameters->has('recipient')) {
+			$this->_recipient = $parameters->get('recipient');
+		}		
+		if ($parameters->has('from'))
+			$this->_from = $parameters->get('from');
+		else 
+			$this->_from = 'dump@phpunit.de';
+		if ($parameters->has('body'))
+			$this->_content = $parameters->get('body');
+		else 
+			$this->_content = 'Unit test dump';
+		
+		
+		// call inherited method
+		parent::boostrap($configuration, $facade, $parameters);
+    }
+
 	
 	
 	/**

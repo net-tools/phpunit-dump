@@ -4,6 +4,14 @@
 namespace Nettools\PHPUnitDump;
 
 
+use \PHPUnit\Runner\Extension\Facade as EventFacade;
+use \PHPUnit\Runner\Extension\ParameterCollection;
+use \PHPUnit\TextUI\Configuration\Configuration;
+
+
+
+
+
 
 /**
  * Dump data to files (1 file per data dumped)
@@ -17,16 +25,17 @@ class DumpToFile extends DumpExtension
 	
 	
 	
-	/** 
-	 * Constructor
-	 *
-	 * @param string $basedir Directory to save files to
-	 */
-	public function __construct($basedir)
-	{
-		$this->_basedir = $basedir;
-	}
-	
+    public function bootstrap(Configuration $configuration, EventFacade $facade, ParameterCollection $parameters): void
+    {
+		if ($parameters->has('path')) {
+			$this->_basedir = $parameters->get('path');
+		}		
+				
+		
+		// call inherited method
+		parent::boostrap($configuration, $facade, $parameters);
+    }
+
 	
 	
 	/**
