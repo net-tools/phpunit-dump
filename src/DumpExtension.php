@@ -21,7 +21,7 @@ final class ExecutionFinishedSubscriber implements ExecutionFinishedSubscriberIn
 	
 	
 	
-	public __construct(DumpExtension $ext)
+	public function __construct(DumpExtension $ext)
 	{
 		$this->_ext = $ext;
 	}
@@ -39,8 +39,7 @@ final class ExecutionFinishedSubscriber implements ExecutionFinishedSubscriberIn
 			if ( count($this->_ext->data) )
 				$this->_ext->doDump();
 		}	
-
-   }
+	}
 }
 
 
