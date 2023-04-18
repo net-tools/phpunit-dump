@@ -56,7 +56,7 @@ class DumpToMail extends DumpExtension
 		
 		
 		// call inherited method
-		parent::boostrap($configuration, $facade, $parameters);
+		parent::bootstrap($configuration, $facade, $parameters);
     }
 
 	
