@@ -12,14 +12,12 @@ class DumpToStdout extends DumpExtension
 {
 	/**
 	 * Dump data to stdout
-	 * 
-	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
-	protected function _dump($data)
+	public function doDump()
 	{
 		try
 		{
-			foreach ( $data as $k => $v )
+			foreach ( $this->data as $k => $v )
 			{
 				echo "\r\n";
 				echo "-- DUMP '$k' --\r\n";

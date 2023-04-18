@@ -4,66 +4,83 @@
 namespace Nettools\PHPUnitDump;
 
 
-use \PHPUnit\Runner\AfterLastTestHook;
+use PHPUnit\Runner\Extension\Extension as PhpunitExtension;
+use PHPUnit\Runner\Extension\Facade as EventFacade;
+use PHPUnit\Runner\Extension\ParameterCollection;
+use PHPUnit\TextUI\Configuration\Configuration;
+
+use PHPUnit\Event\TestRunner\ExecutionFinished;
+use PHPUnit\Event\TestRunner\ExecutionFinishedSubscriber as ExecutionFinishedSubscriberInterface;
 
 
 
-abstract class DumpExtension implements AfterLastTestHook
+
+final class ExecutionFinishedSubscriber implements ExecutionFinishedSubscriberInterface
 {
-	/**
-	 * @var string Name of the superglobal var used to store data between tests ; this extension will fetch this global data and use it
-	 */
-	const GLOBAL_VAR = "__phpunit_dump";
+	protected $_ext = NULL;
 	
 	
 	
-	/**
-	 * Called after the last test has been run
-	 */
-	public function executeAfterLastTest():void
+	public __construct(DumpExtension $ext)
 	{
-		// get data in superglobal
-		$data = $this->_getData();
-		if ( $data && is_array($data) && count($data) )
-			$this->_dump($data);
-	}	
-	
-	
-	
-	/** 
-	 * Get data from superglobal var
-	 *
-	 * @return string
-	 */
-	protected function _getData()
-	{
-		return array_key_exists(self::GLOBAL_VAR, $GLOBALS) ? $GLOBALS[self::GLOBAL_VAR] : null;
+		$this->_ext = $ext;
 	}
 	
+	
+	
+    public function notify(ExecutionFinished $event): void
+    {
+		/**
+		 * Called after the last test has been run
+		 */
+		public function executeAfterLastTest():void
+		{
+			// get data in superglobal
+			if ( count($this->_ext->data) )
+				$this->_ext->doDump();
+		}	
+
+   }
+}
+
+
+
+
+abstract class DumpExtension implements PhpunitExtension
+{
+	/**
+	 * @var string[] Associative array of (key,value) items to dump 
+	 */
+	public $data = array();
+	
+	
+	
+    public function bootstrap(Configuration $configuration, EventFacade $facade, ParameterCollection $parameters): void
+    {
+        $facade->registerSubscriber(
+            new ExecutionFinishedSubscriber($this)
+        );
+    }
+
 	
 	
 	/**
 	 * Dump data to the superglobal var
 	 *
 	 * @param string $name Name (title) of data to dump
-	 * @param string $data Data to dump as a string
+	 * @param string $d Data to dump as a string
 	 */
-	public static function dump($name, $data)
+	public function dump($name, $d)
 	{
-		if ( empty($GLOBALS[self::GLOBAL_VAR]) )
-			$GLOBALS[self::GLOBAL_VAR] = array();
-		
-		$GLOBALS[self::GLOBAL_VAR][$name] = $data;
+		$this->data[$name] = $d;
 	}
 	
 	
 	
 	/**
 	 * Dump data ; to be implemented in classes inheriting from DumpExtension
-	 * 
-	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
-	abstract protected function _dump($data);
+	abstract function doDump();
 }
 	
 	

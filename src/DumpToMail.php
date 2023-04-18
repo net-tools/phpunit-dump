@@ -128,10 +128,8 @@ class DumpToMail extends DumpExtension
 	
 	/**
 	 * Dump data to a mail
-	 * 
-	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
-	protected function _dump($data)
+	public function doDump()
 	{
 		$atts = [];
 		
@@ -139,7 +137,7 @@ class DumpToMail extends DumpExtension
 		try
 		{
 			// for each data dump
-			foreach ( $data as $k => $v )
+			foreach ( $this->data as $k => $v )
 				$atts[] = array('file'=>$v, 'filename'=>$k, 'filetype'=>$this->_guessMimeType($k, 'application/octet-stream'));
 
 

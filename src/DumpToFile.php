@@ -31,14 +31,12 @@ class DumpToFile extends DumpExtension
 	
 	/**
 	 * Dump data to a file
-	 * 
-	 * @param string[] $data Associative array of data values ($name, $value)
 	 */
-	protected function _dump($data)
+	public function doDump()
 	{
 		try
 		{
-			foreach ( $data as $k => $v )
+			foreach ( $this->data as $k => $v )
 			{
 				$f = fopen($this->_basedir . '/' . $k, 'w');
 				fwrite($f, $v);
