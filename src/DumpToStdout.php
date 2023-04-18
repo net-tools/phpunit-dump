@@ -17,7 +17,7 @@ class DumpToStdout extends DumpExtension
 	{
 		try
 		{
-			foreach ( $this->data as $k => $v )
+			foreach ( self::$data as $k => $v )
 			{
 				echo "\r\n";
 				echo "-- DUMP '$k' --\r\n";

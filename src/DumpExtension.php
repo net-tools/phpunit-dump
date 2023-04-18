@@ -31,7 +31,7 @@ final class ExecutionFinishedSubscriber implements ExecutionFinishedSubscriberIn
     public function notify(ExecutionFinished $event): void
     {
 		// get data in superglobal
-		if ( count($this->_ext->data) )
+		if ( count(DumpExtension::$data) )
 			$this->_ext->doDump();
 	}
 }
@@ -44,7 +44,7 @@ abstract class DumpExtension implements PhpunitExtension
 	/**
 	 * @var string[] Associative array of (key,value) items to dump 
 	 */
-	public $data = array();
+	public static $data = array();
 	
 	
 	
@@ -63,9 +63,9 @@ abstract class DumpExtension implements PhpunitExtension
 	 * @param string $name Name (title) of data to dump
 	 * @param string $d Data to dump as a string
 	 */
-	public function dump($name, $d)
+	public static function dump($name, $d)
 	{
-		$this->data[$name] = $d;
+		self::$data[$name] = $d;
 	}
 	
 	

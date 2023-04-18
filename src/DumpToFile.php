@@ -36,7 +36,7 @@ class DumpToFile extends DumpExtension
 	{
 		try
 		{
-			foreach ( $this->data as $k => $v )
+			foreach ( self::$data as $k => $v )
 			{
 				$f = fopen($this->_basedir . '/' . $k, 'w');
 				fwrite($f, $v);

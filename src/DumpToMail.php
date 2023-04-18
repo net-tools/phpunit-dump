@@ -137,7 +137,7 @@ class DumpToMail extends DumpExtension
 		try
 		{
 			// for each data dump
-			foreach ( $this->data as $k => $v )
+			foreach ( self::$data as $k => $v )
 				$atts[] = array('file'=>$v, 'filename'=>$k, 'filetype'=>$this->_guessMimeType($k, 'application/octet-stream'));
 
 
